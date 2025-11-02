@@ -1,58 +1,57 @@
-#ifndef LAYERS_H
-#define LAYERS_H
+#ifndef DEEPC_LAYERS_H
+#define DEEPC_LAYERS_H
 
-#include "matrix.h"
+#include "deepc/matrix.h"
+
+#ifdef __cpluscplus
+extern "C" {
+#endif
 
 typedef enum {
-    LINEAR,
-    SIGMOID,
-    RELU,
-    TANH,
-    SOFTMAX
-} Activation;
+    DEEPC_LINEAR,
+    DEEPC_SIGMOID,
+    DEEPC_RELU,
+    DEEPC_TANH,
+    DEEPC_SOFTMAX
+} deepc_activation;
 
-typedef struct Layer {
+typedef struct deepc_layer {
     char* name;
-    Activation activation;
-    int input_size;
-    int output_size;
-    struct Layer* next;
+    deepc_activation activation;
+
+    size_t input_size, output_size;
+    struct deepc_layer* next;
     
-    // Parameters and gradients
-    Matrix* weights;
-    Matrix* biases;
-    Matrix* dweights;
-    Matrix* dbiases;
-    
-    // Forward pass cache
-    Matrix* input;
-    Matrix* output;
-    Matrix* z;
-} Layer;
+    deepc_matrix weights, biases;
+    deepc_matrix dweights, dbiases;
 
-// Layer creation
-Layer* Dense(int units, Activation activation, int input_dim);
+    deepc_matrix input, output, z;
+} deepc_layer;
 
-// Forward and backward passes
-Matrix* forward_pass(Layer* layer, const Matrix* input);
-Matrix* backward_pass(Layer* layer, const Matrix* gradient);
+void deepc_initialize_dense_layer(deepc_layer* layer, size_t units, 
+    deepc_activation activation, size_t input_size);
 
-// Activation functions
-Matrix* apply_activation(const Matrix* input, Activation activation);
-Matrix* apply_activation_derivative(const Matrix* input, Activation activation);
+void deepc_deinitialize_layer(const deepc_layer* layer);
 
-// Initialization
-void initialize_weights_xavier(Matrix* weights, int input_size);
+deepc_matrix deepc_forward_pass(const deepc_layer* layer, deepc_matrix input);
+deepc_matrix deepc_backward_pass(const deepc_layer* layer, 
+    deepc_matrix gradient);
 
-// Memory management
-void free_layer(Layer* layer);
+deepc_matrix deepc_apply_activation(deepc_matrix input, 
+    deepc_activation activation);
 
-// Utility
-int matrix_has_nan(const Matrix* m);
+deepc_matrix deepc_apply_activation_derivative(deepc_matrix input, 
+    deepc_activation activation);
 
+void deepc_initialize_weights_xavier(deepc_matrix* weights, size_t input_size);
 
-// Layer serialization
-void save_layer(Layer* layer, FILE* file);
-Layer* load_layer(FILE* file);
+int deepc_matrix_has_nan(deepc_matrix mat);
 
+void deepc_save_layer(const deepc_layer* layer, const char* filename);
+deepc_layer deepc_load_layer(const char* filename);
+
+#ifdef __cpluscplus
+}
 #endif
+
+#endif // DEEPC_LAYERS_H

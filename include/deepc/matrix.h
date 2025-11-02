@@ -1,54 +1,67 @@
-#ifndef MATRIX_H
-#define MATRIX_H
+#ifndef DEEPC_MATRIX_H
+#define DEEPC_MATRIX_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-#include <math.h>
-#include <execinfo.h>
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <string.h>
+// #include <time.h>
+// #include <math.h>
+// #include <execinfo.h>
+// #include <stddef.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct {
-    int rows;
-    int cols;
-    double **data;
-} Matrix;
+    float* data;
+    int num_rows;
+    int num_cols;
+} deepc_matrix;
 
-// Function declarations
-Matrix* create_matrix(int rows, int cols);
-void free_matrix(Matrix *m);
-Matrix* copy_matrix(const Matrix *src);
-Matrix* zeros(int rows, int cols);
-Matrix* ones(int rows, int cols);
-Matrix* rand_matrix(int rows, int cols);
-void print_matrix(const Matrix *m);
-Matrix* get_row(const Matrix *m, int row_index);
-Matrix* get_col(const Matrix *m, int col_index);
-void set_row(Matrix *m, int row_index, const Matrix *row_data);
-void set_col(Matrix *m, int col_index, const Matrix *col_data);
-Matrix* add(const Matrix *a, const Matrix *b);
-Matrix* subtract(const Matrix *a, const Matrix *b);
-Matrix* multiply(const Matrix *a, const Matrix *b);
-Matrix* dot(const Matrix *a, const Matrix *b);
-Matrix* scale(const Matrix *a, double scalar);
-Matrix* transpose(const Matrix *a);
-Matrix* apply_function(const Matrix *a, double (*func)(double));
-void add_inplace(Matrix *a, const Matrix *b);
-void subtract_inplace(Matrix *a, const Matrix *b);
-void scale_inplace(Matrix *a, double scalar);
+int deepc_initialize_matrix(deepc_matrix* mat, int num_rows, int num_cols);
+void deepc_deinitialize_matrix(deepc_matrix* mat);
 
-// Activation functions
-double sigmoid(double x);
-double relu(double x);
-double tanh_func(double x);
+// deepc_matrix deepc_copy_matrix(deepc_matrix src);
 
-// Helper functions
-void print_stack_trace(void);
-int matrix_has_nan(const Matrix* m);
+deepc_matrix deepc_zeros_matrix(int num_rows, int num_cols);
+deepc_matrix deepc_ones_matrix(int num_rows, int num_cols);
 
-// Add these to matrix.h
-Matrix* get_features(const Matrix* data_with_labels, int label_column);
-Matrix* get_labels(const Matrix* data_with_labels, int label_column);
-void print_class_distribution(const Matrix* labels);
+deepc_matrix deepc_rand_matrix(int num_rows, int num_cols);
+void deepc_print_matrix(deepc_matrix mat);
 
+deepc_matrix deepc_matrix_row(deepc_matrix mat, int row_pos);
+deepc_matrix deepc_matrix_col(deepc_matrix mat, int col_pos);
+
+void deepc_set_row(deepc_matrix mat, int row_pos, float* row);
+void deepc_set_col(deepc_matrix mat, int col_pos, float* col);
+
+deepc_matrix deepc_add(deepc_matrix lhs, deepc_matrix rhs);
+deepc_matrix deepc_subtract(deepc_matrix lhs, deepc_matrix rhs);
+deepc_matrix deepc_multiply(deepc_matrix lhs, deepc_matrix rhs);
+deepc_matrix deepc_dot(deepc_matrix lhs, deepc_matrix rhs);
+deepc_matrix deepc_scale(deepc_matrix lhs, float rhs);
+
+deepc_matrix deepc_transpose(deepc_matrix mat);
+deepc_matrix deepc_apply_function(deepc_matrix mat, float (*func)(float));
+
+void deepc_add_inplace(deepc_matrix* lhs, deepc_matrix rhs);
+void deepc_subtract_inplace(deepc_matrix* lhs, deepc_matrix rhs);
+void deepc_scale_inplace(deepc_matrix* lhs, float rhs);
+
+float deepc_sigmoid(float x);
+float deepc_relu(float x);
+float deepc_tanh(float x);
+
+void deepc_print_stack_trace(void);
+int deepc_matrix_has_nan(deepc_matrix mat);
+
+deepc_matrix deepc_features(deepc_matrix data_with_labels, int label_column);
+deepc_matrix deepc_labels(deepc_matrix data_with_labels, int label_column);
+void deepc_print_class_distribution(deepc_matrix labels);
+
+#ifdef __cplusplus
+}
 #endif
+
+#endif // DEEPC_MATRIX

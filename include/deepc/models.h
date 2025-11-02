@@ -1,47 +1,52 @@
-#ifndef MODELS_H
-#define MODELS_H
+#ifndef DEEPC_MODELS_H
+#define DEEPC_MODELS_H
 
-#include "matrix.h"
-#include "layers.h"
-#include "losses.h"
-#include "optimizers.h"
+#include "deepc/matrix.h"
+#include "deepc/layers.h"
+#include "deepc/losses.h"
+#include "deepc/optimizers.h"
 
-typedef struct SequentialModel {
+typedef struct {
     char* name;
-    Layer* input_layer;
-    Layer* output_layer;
-    int num_layers;
+
+    deepc_layer input_layer, output_layer;
+    size_t layers_size;
     
-    // Training parameters
-    double learning_rate;
-    LossFunction loss_function;
-    Optimizer optimizer_type;
-    OptimizerState* optimizer;
-    int is_compiled;
-} SequentialModel;
+    float learning_rate;
+    deepc_loss_function loss_function;
 
-// Model creation and management
-SequentialModel* create_model(const char* name);
-void add_layer(SequentialModel* model, Layer* layer);
-void free_model(SequentialModel* model);
+    deepc_optimizer optimizer;
+    deepc_optimizer_state optimizer_state;
 
-// Model compilation and training
-void compile(SequentialModel* model, Optimizer optimizer, LossFunction loss, double learning_rate);
-Matrix* predict(SequentialModel* model, const Matrix* input);
-void fit(SequentialModel* model, const Matrix* X, const Matrix* y, 
-         int epochs, int batch_size, int verbose);
+    bool is_compiled;
+} deepc_sequential_model;
 
-// Model evaluation
-double evaluate(SequentialModel* model, const Matrix* X, const Matrix* y);
+int deepc_initialize_sequential_model(deepc_sequential_model* model, 
+    const char* name);
 
-// Utility functions
-void print_model_summary(const SequentialModel* model);
+void deepc_deinitialize_sequential_model(deepc_sequential_model* model);
 
+void deepc_add_layer(deepc_sequential_model* model, const deepc_layer* layer);
 
-// BUILT-IN SAVE/LOAD FUNCTIONS
-void save_model(SequentialModel* model, const char* filename);
-SequentialModel* load_model(const char* filename);
-void save_weights(SequentialModel* model, const char* filename);
-void load_weights(SequentialModel* model, const char* filename);
+void deepc_compile(const deepc_sequential_model* model, 
+    deepc_optimizer optimizer, deepc_loss_function loss, float learning_rate);
 
-#endif
+deepc_matrix deepc_predict(const deepc_sequential_module* model,
+    deepc_matrix input);
+
+void deepc_fit(deepc_sequential_model* model, deepc_matrix x, deepc_matrix y, 
+    int epochs, int batch_size, int verbose);
+
+float deepc_evaluate(const deepc_sequential_mode* model, deepc_matrix x, 
+    deepc_matrix y);
+
+void deepc_print_model_summary(const deepc_sequential_model* model);
+
+void deepc_save_model(const deepc_sequential_model* model, 
+    const char* filename);
+
+void deepc_load_model(const char* filename);
+void deepc_save_weights(deepc_sequential_model* model, const char* filename);
+void deepc_load_weights(deepc_sequential_model* model, const char* filename);
+
+#endif // DEEPC_MODELS_H

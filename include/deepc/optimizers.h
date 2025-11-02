@@ -1,37 +1,35 @@
-#ifndef OPTIMIZERS_H
-#define OPTIMIZERS_H
+#ifndef DEEPC_OPTIMIZERS_H
+#define DEEPC_OPTIMIZERS_H
 
-#include "matrix.h"
-#include "layers.h"
+#include "deepc/matrix.h"
+#include "deepc/layers.h"
 
 typedef enum {
-    SGD,
-    ADAM
-} Optimizer;
+    DEEPC_SGD,
+    DEEPC_ADAM
+} deepc_optimizer;
 
-typedef struct OptimizerState {
-    Optimizer type;
-    double learning_rate;
+typedef struct {
+    deepc_optimizer type;
+
+    float learning_rate;
     int timestep;
     
-    // Adam parameters
-    double beta1;
-    double beta2;
-    double epsilon;
-    
+    float beta1, beta2, epsilon;
 
-    Matrix*** m_weights;  // Array of matrices for each layer
-    Matrix*** v_weights;
-    Matrix*** m_biases;
-    Matrix*** v_biases;
-    int max_layers;
-} OptimizerState;
+    deepc_matrix** m_weights, **v_weights;
+    deepc_matrix** m_biases, **v_biases;
 
-// Optimizer management
-OptimizerState* create_optimizer(Optimizer type, double learning_rate);
-void free_optimizer(OptimizerState* optimizer);
+    size_t max_layers_size;
+} deepc_optimizer_state;
 
-// Weight updates
-void update_weights(Layer* layer, OptimizerState* optimizer, int layer_index);
+deepc_optimizer_state deepc_create_optimizer_state(deepc_optimizer optimizer, 
+    float learning_rate);
 
-#endif
+void deepc_destroy_optimizer_state(
+    const deepc_optimizer_state* optimizer_state);
+
+void deepc_update_weights(deepc_layer* layer, 
+    deepc_optimizer_state* optimizer_state, size_t layer_pos);
+
+#endif // DEEPC_OPTIMIZERS_H

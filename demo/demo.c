@@ -1,4 +1,4 @@
-#include "deepc/DeepC.h"
+#include "deepc/deepc.h"
 
 int main() {
     SequentialModel* model = create_model("MyModel");

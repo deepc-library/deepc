@@ -1,29 +1,39 @@
-#ifndef LOSSES_H
-#define LOSSES_H
+#ifndef DEEPC_LOSSES_H
+#define DEEPC_LOSSES_H
 
-#include "matrix.h"
+#include "deepc/matrix.h"
 
-// Loss function types
-typedef enum {
-    MEAN_SQUARED_ERROR,
-    BINARY_CROSSENTROPY,
-    CATEGORICAL_CROSSENTROPY
-} LossFunction;
-
-// Loss calculation
-double compute_loss(const Matrix* y_true, const Matrix* y_pred, LossFunction loss_func);
-Matrix* compute_loss_gradient(const Matrix* y_true, const Matrix* y_pred, LossFunction loss_func);
-
-// Individual loss functions
-double mse_loss(const Matrix* y_true, const Matrix* y_pred);
-Matrix* mse_gradient(const Matrix* y_true, const Matrix* y_pred);
-
-double binary_crossentropy_loss(const Matrix* y_true, const Matrix* y_pred);
-Matrix* binary_crossentropy_gradient(const Matrix* y_true, const Matrix* y_pred);
-
-double categorical_crossentropy_loss(const Matrix* y_true, const Matrix* y_pred);
-Matrix* categorical_crossentropy_gradient(const Matrix* y_true, const Matrix* y_pred);
-
-
-
+#ifdef __cplusplus
+extern "C" {
 #endif
+
+typedef enum {
+    DEEPC_MEAN_SQUARED_ERROR,
+    DEEPC_BINARY_CROSSENTROPY,
+    DEEPC_CATEGORICAL_CROSSENTROPY
+} deepc_loss_function;
+
+float deepc_compute_loss(deepc_matrix y_true, deepc_matrix y_pred, 
+    deepc_loss_function loss_func);
+
+deepc_matrix deepc_compute_loss_gradient(deepc_matrix y_true, 
+    deepc_matrix y_pred, deepc_loss_function loss_func);
+
+float deepc_mse_loss(deepc_matrix y_true, deepc_matrix y_pred);
+deepc_matrix deepc_mse_gradient(deepc_matrix y_true, deepc_matrix y_pred);
+
+float deepc_binary_crossentropy_loss(deepc_matrix y_true, deepc_matrix y_pred);
+deepc_matrix deepc_binary_crossentropy_gradient(deepc_matrix y_true, 
+    deepc_matrix y_pred);
+
+float deepc_categorical_crossentropy_loss(deepc_matrix y_true, 
+    deepc_matrix y_pred);
+
+deepc_matrix deepc_categorical_crossentropy_gradient(deepc_matrix y_true, 
+    deepc_matrix y_pred);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif // DEEPC_LOSSES_H
