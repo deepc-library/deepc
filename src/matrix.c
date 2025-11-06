@@ -88,7 +88,7 @@ int deepc_ones_matrix(deepc_matrix* dest, int num_rows, int num_cols) {
 }
 
 // Fills matrix with random values between 0.0f and 1.0f
-int deepc_rand_matrix(deepc_matrix* dest, int seed, int num_rows, int num_cols)
+int deepc_rand_matrix(deepc_matrix* dest, int num_rows, int num_cols, int seed)
 {
     int err = deepc_initialize_matrix(dest, num_rows, num_cols);
     if (err) {
@@ -123,37 +123,37 @@ void deepc_print_matrix(deepc_matrix matrix) {
 }
 
 // Get a specific row as a new 1xcols matrix
-int deepc_matrix_row(deepc_matrix* dest, deepc_matrix matrix, 
-    int row_pos) 
-{
-    int err = deepc_initialize_matrix(dest, 1, matrix.num_cols);
+int deepc_matrix_row(deepc_matrix* dest, deepc_matrix src, int row_pos) {
+    int err = deepc_initialize_matrix(dest, 1, src.num_cols);
     if (err) {
         return err;
     }
     
-    for (int j = 0; j < matrix.num_cols; ++j) {
-        DEEPC_MATRIX_AT(*dest, 0, j) = DEEPC_MATRIX_AT(*dest, row_pos, j);
+    for (int j = 0; j < src.num_cols; ++j) {
+        DEEPC_MATRIX_AT(*dest, 0, j) = DEEPC_MATRIX_AT(src, row_pos, j);
     }
     
     return 0;
 }
 
-// Get a specific column as a new rows x 1 matrix
-Matrix* get_col(const Matrix *m, int col_index) {
-    MATRIX_CHECK(m != NULL, "Matrix is NULL");
-    MATRIX_CHECK(col_index >= 0 && col_index < m->cols, "Column index out of bounds");
-    
-    Matrix *col = create_matrix(m->rows, 1);
-    
-    for (int i = 0; i < m->rows; i++) {
-        col->data[i][0] = m->data[i][col_index];
+// Get a specific column as a new rowsx1 matrix
+int deepc_matrix_col(deepc_matrix* dest, deepc_matrix src, int col_pos) {
+    int err = deepc_initialize_matrix(dest, src.num_rows, 1);
+    if (err) {
+        return err;
     }
     
-    return col;
+    for (int i = 0; i < src.num_rows; ++i) {
+        DEEPC_MATRIX_AT(*dest, i, 0) = DEEPC_MATRIX_AT(src, i, col_pos);
+    }
+    
+    return 0;
 }
 
-// Set a specific row from a 1 x cols matrix
-void set_row(Matrix *m, int row_index, const Matrix *row_data) {
+// Set a specific row from a vector
+void deepc_set_matrix_row(deepc_matrix* dest, int row_pos, deepc_vector row) {
+    // restart from here
+
     MATRIX_CHECK(m != NULL, "Matrix is NULL");
     MATRIX_CHECK(row_data != NULL, "Row data is NULL");
     MATRIX_CHECK(row_index >= 0 && row_index < m->rows, "Row index out of bounds");
