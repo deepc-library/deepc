@@ -1,6 +1,9 @@
 #ifndef DEEPC_MATRIX_H
 #define DEEPC_MATRIX_H
 
+#include "deepc/error.h"
+#include <stdbool.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -15,52 +18,64 @@ struct deepc_matrix {
 
 #define DEEPC_MATRIX_AT(matrix, i, j) ((matrix).num_cols * (i) + (j))
 
-int deepc_initialize_matrix(deepc_matrix* matrix, int num_rows, int num_cols);
+deepc_error deepc_initialize_matrix(deepc_matrix* matrix, int num_rows, 
+    int num_cols);
+
 void deepc_deinitialize_matrix(deepc_matrix* matrix);
 
-int deepc_copy_matrix(deepc_matrix* dest, deepc_matrix src);
+deepc_error deepc_copy_matrix(deepc_matrix* dest, deepc_matrix src);
 
-deepc_matrix deepc_zeros_matrix(int num_rows, int num_cols);
-deepc_matrix deepc_ones_matrix(int num_rows, int num_cols);
+deepc_error deepc_zeros_matrix(deepc_matrix* dest, int num_rows, int num_cols);
+deepc_error deepc_ones_matrix(deepc_matrix* dest, int num_rows, int num_cols);
 
-deepc_matrix deepc_rand_matrix(int num_rows, int num_cols);
-void deepc_print_matrix(deepc_matrix matrix);
+deepc_error deepc_rand_matrix(deepc_matrix* dest, int num_rows, int num_cols);
 
-deepc_matrix deepc_matrix_row(deepc_matrix matrix, int row_pos);
-deepc_matrix deepc_matrix_col(deepc_matrix matrix, int col_pos);
+bool deepc_matrix_has_nan(deepc_matrix matrix);
 
-void deepc_set_row(deepc_matrix matrix, int row_pos, float* row);
-void deepc_set_col(deepc_matrix matrix, int col_pos, float* col);
+deepc_error deepc_matrix_row(deepc_matrix* dest, deepc_matrix src, int row_pos);
+deepc_error deepc_matrix_col(deepc_matrix* dest, deepc_matrix src, int col_pos);
 
-deepc_matrix deepc_sum_matrices(deepc_matrix lhs, deepc_matrix rhs);
-deepc_matrix deepc_subtract_matrices(deepc_matrix lhs, deepc_matrix rhs);
-deepc_matrix deepc_multiply_matrices(deepc_matrix lhs, deepc_matrix rhs);
-deepc_matrix deepc_hadamard_multiply_matrices(deepc_matrix lhs, 
+void deepc_set_matrix_row(deepc_matrix matrix, int row_pos, deepc_matrix row);
+void deepc_set_matrix_col(deepc_matrix matrix, int col_pos, deepc_matrix col);
+
+deepc_error deepc_sum_matrices(deepc_matrix* rslt, deepc_matrix lhs, 
     deepc_matrix rhs);
 
-deepc_matrix deepc_scale_matrix(deepc_matrix matrix, float scalar);
+deepc_error deepc_subtract_matrices(deepc_matrix* rslt, deepc_matrix lhs, 
+    deepc_matrix rhs);
 
-deepc_matrix deepc_transpose_matrix(deepc_matrix matrix);
-deepc_matrix deepc_apply_function_to_matrix(deepc_matrix matrix, 
-    float (*func)(float));
+deepc_error deepc_multiply_matrices(deepc_matrix* rslt, deepc_matrix lhs, 
+    deepc_matrix rhs);
 
-void deepc_add_matrix_inplace(deepc_matrix* lhs, deepc_matrix rhs);
-void deepc_subtract_matrix_inplace(deepc_matrix* lhs, deepc_matrix rhs);
-void deepc_scale_matrix_inplace(deepc_matrix* matrix, float scalar);
+deepc_error deepc_hadamard_multiply_matrices(deepc_matrix* rslt, 
+    deepc_matrix lhs, deepc_matrix rhs);
+
+deepc_error deepc_scale_matrix(deepc_matrix* rslt, deepc_matrix matrix, 
+    float scalar);
+
+deepc_error deepc_transpose_matrix(deepc_matrix* rslt, deepc_matrix matrix);
+deepc_error deepc_apply_function_to_matrix(deepc_matrix* rslt, 
+    deepc_matrix matrix, float (*func)(float));
+
+void deepc_sum_matrix_in_place(deepc_matrix* lhs, deepc_matrix rhs);
+void deepc_subtract_matrix_in_place(deepc_matrix* lhs, deepc_matrix rhs);
+void deepc_scale_matrix_in_place(deepc_matrix* matrix, float scalar);
 
 float deepc_sigmoid(float x);
 float deepc_relu(float x);
 float deepc_tanh(float x);
 
-void deepc_print_stack_trace();
-int deepc_matrix_has_nan(deepc_matrix mat);
+deepc_error deepc_features(deepc_matrix* dest, deepc_matrix labeled_data, 
+    int label_column);
 
-deepc_matrix deepc_features(deepc_matrix data_with_labels, int label_column);
-deepc_matrix deepc_labels(deepc_matrix data_with_labels, int label_column);
-void deepc_print_class_distribution(deepc_matrix labels);
+deepc_error deepc_labels(deepc_matrix* dest, deepc_matrix labeled, 
+    int label_column);
+
+void deepc_print_matrix(deepc_matrix matrix);
+deepc_error deepc_print_class_distribution(deepc_matrix labels);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif // DEEPC_MATRIX
+#endif // DEEPC_MATRIX_H
