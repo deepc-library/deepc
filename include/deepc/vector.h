@@ -7,13 +7,10 @@
 extern "C" {
 #endif
 
-void deepc_sum_vectors(float* rslt, const float* lhs, const float* rhs, 
-    size_t n);
-void deepc_subtract_vectors(float* rslt, const float* lhs, const float* rhs, 
-    size_t n);
-void deepc_scale_vector(float* rslt, const float* v, size_t n, float scalar);
-void deepc_dot_multiply_vectors(float* rslt, const float* lhs, const float* rhs, 
-    size_t n);
+void deepc_vec_sum(float* rslt, const float* lhs, const float* rhs, size_t n);
+void deepc_vec_sub(float* rslt, const float* lhs, const float* rhs, size_t n);
+void deepc_vec_scale(float* rslt, const float* v, size_t n, float scalar);
+void deepc_vec_dot(float* rslt, const float* lhs, const float* rhs, size_t n);
 
 #ifdef __cplusplus
 }
