@@ -1,23 +1,5 @@
 #include "deepc/vector.h"
 
-void deepc_sum_vector_in_place(float* lhs, const float* rhs, size_t n) {
-    for (size_t i = 0; i < n; ++i) {
-        lhs[i] += rhs[i];
-    }
-}
-
-void deepc_subtract_vector_in_place(float* lhs, const float* rhs, size_t n) {
-    for (size_t i = 0; i < n; ++i) {
-        lhs[i] -= rhs[i];
-    }
-}
-
-void deepc_scale_vector_in_place(float* v, unsigned int n, float scalar) {
-    for (size_t i = 0; i < n; ++i) {
-        v[i] *= scalar;
-    }
-}
-
 void deepc_sum_vectors(float* rslt, const float* lhs, const float* rhs, 
     size_t n) 
 {

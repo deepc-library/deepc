@@ -7,11 +7,6 @@
 extern "C" {
 #endif
 
-void deepc_sum_matrix_in_place(float* lhs, const float* rhs, size_t n);
-void deepc_subtract_matrix_in_place(float* lhs, const float* rhs, size_t n);
-void deepc_scale_matrix_in_place(float* rslt, const float* m, size_t n, 
-    float scalar);
-
 void deepc_sum_matrices(float* rslt, const float* lhs, const float* rhs, 
     size_t n);
 
