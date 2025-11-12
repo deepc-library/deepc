@@ -1,7 +1,7 @@
 #ifndef DEEPC_MATRIX_H
 #define DEEPC_MATRIX_H
 
-#include "deepc/vector.h"
+#include <stddef.h>
 
 #ifdef __cplusplus
 extern "C" {
