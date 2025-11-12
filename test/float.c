@@ -1,4 +1,4 @@
-#include "deepc/float.h"
+#include <deepc/float.h>
 #include <assert.h>
 
 const float epsilon = 1e-6f;

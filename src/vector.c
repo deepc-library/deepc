@@ -1,4 +1,4 @@
-#include "deepc/vector.h"
+#include <deepc/vector.h>
 #include <math.h>
 
 float deepc_vector_length(const float* v, size_t n)

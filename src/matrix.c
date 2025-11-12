@@ -1,4 +1,4 @@
-#include "deepc/matrix.h"
+#include <deepc/matrix.h>
 
 void deepc_matrix_sum(float* rslt, const float* m1, const float* m2, size_t n) 
 {

@@ -1,93 +1,27 @@
-#include "deepc/layers.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <math.h>
-#include <time.h>
+#include <deepc/layers.h>
 
-
-
-// Error handling
-#define LAYER_ERROR(msg) do { \
-    fprintf(stderr, "\n*** LAYER ERROR ***\n"); \
-    fprintf(stderr, "Message: %s\n", msg); \
-    fprintf(stderr, "File: %s\n", __FILE__); \
-    fprintf(stderr, "Line: %d\n", __LINE__); \
-    fprintf(stderr, "Function: %s\n", __func__); \
-    exit(EXIT_FAILURE); \
-} while(0)
-
-#define LAYER_CHECK(condition, msg) do { \
-    if (!(condition)) { \
-        LAYER_ERROR(msg); \
-    } \
-} while(0)
-
-// Create a Dense layer
-Layer* Dense(int units, Activation activation, int input_dim) {
-    LAYER_CHECK(units > 0, "Units must be positive");
-    LAYER_CHECK(input_dim > 0, "Input dimension must be positive");
-    
-    Layer* layer = (Layer*)malloc(sizeof(Layer));
-    LAYER_CHECK(layer != NULL, "Memory allocation failed for layer");
-    
-    layer->name = malloc(6);
-    if (layer->name) {
-        strcpy(layer->name, "dense");
-    }
-    
+void deepc_dense_layer_initialize(deepc_layer* layer, float* weights, 
+    float* biases, size_t input_size, size_t output_size, 
+    float (*activation)(float), float (*activation_derivative)(float))
+{
+    layer->weights = weights;
+    layer->biases = biases;
+    layer->input_size = input_size;
+    layer->output_size = output_size;
     layer->activation = activation;
-    layer->input_size = input_dim;
-    layer->output_size = units;
-    layer->next = NULL;
-    
-    // Initialize weights and biases with correct dimensions
-    layer->weights = create_matrix(units, input_dim);
-    layer->biases = create_matrix(units, 1);  // FIXED: units x 1
-    layer->dweights = create_matrix(units, input_dim);
-    layer->dbiases = create_matrix(units, 1);  // FIXED: units x 1
-    
-    // Initialize cache matrices
-    layer->input = NULL;
-    layer->output = NULL;
-    layer->z = NULL;
-    
-    // Initialize weights using Xavier initialization
-    initialize_weights_xavier(layer->weights, input_dim);
-    
-    // Initialize biases to zeros
-    for (int i = 0; i < units; i++) {
-        layer->biases->data[i][0] = 0.0;
-    }
-    
-    // Initialize gradients to zero
-    for (int i = 0; i < units; i++) {
-        for (int j = 0; j < input_dim; j++) {
-            layer->dweights->data[i][j] = 0.0;
-        }
-        layer->dbiases->data[i][0] = 0.0;
-    }
-    
-    return layer;
+    layer->activation_derivative = activation_derivative;
+    layer->forward = deepc_dense_layer_forward;
+    layer->backward = deepc_dense_layer_backward;
+    layer->update = deepc_dense_layer_update;
 }
-// Free layer memory
-void free_layer(Layer* layer) {
-    if (!layer) return;
 
-    // Free the name if it exists
-    if (layer->name) {
-        free(layer->name);
-    }
-    
-    if (layer->weights) free_matrix(layer->weights);
-    if (layer->biases) free_matrix(layer->biases);
-    if (layer->dweights) free_matrix(layer->dweights);
-    if (layer->dbiases) free_matrix(layer->dbiases);
-    if (layer->input) free_matrix(layer->input);
-    if (layer->output) free_matrix(layer->output);
-    if (layer->z) free_matrix(layer->z);
-    
-    free(layer);
+void deepc_dense_layer_forward(float* output, float* z, 
+    const deepc_layer* layer, const float* input)
+{
+    deepc_matrix_affine_transform(output, layer->weights, input, layer->biases, 
+        layer->output_size, layer->input_size);
+
+    deepc_vector_transform(output, layer->activation, z, layer->output_size);
 }
 
 // CORRECTED Forward pass through a single layer
