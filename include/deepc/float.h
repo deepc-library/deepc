@@ -9,6 +9,7 @@ extern "C" {
 #endif
 
 bool deepc_are_floats_equal(float x, float y, float epsilon);
+
 bool deepc_are_float_arrays_equal(const float* v1, const float* v2, size_t n, 
     float epsilon);
 
