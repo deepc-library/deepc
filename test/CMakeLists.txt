@@ -1,13 +1,6 @@
-add_executable(float float.c)
-target_link_libraries(float PRIVATE deepc)
-
-add_executable(vector vector.c)
-target_link_libraries(vector PRIVATE deepc)
-
-add_executable(matrix matrix.c)
-target_link_libraries(matrix PRIVATE deepc)
+add_executable(test_float test_float.cpp)
+set_property(TARGET test_float PROPERTY CXX_STANDARD 11)
+target_link_libraries(test_float PRIVATE deepc)
 
 enable_testing()
-add_test(NAME float_test COMMAND float)
-add_test(NAME vector_test COMMAND vector)
-add_test(NAME matrix_test COMMAND matrix)
+add_test(NAME test_float COMMAND test_float)

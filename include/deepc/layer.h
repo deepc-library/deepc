@@ -25,7 +25,7 @@ struct deepc_layer
     void (*update)(deepc_layer*, float, const float*, const float*);
 };
 
-void deepc_dense_layer_initialize(deep_layer* layer, float* weights, 
+void deepc_dense_layer_initialize(deepc_layer* layer, float* weights, 
     float* biases, size_t input_size, size_t output_size, 
     float (*activation)(float), float (*activation_derivative)(float));
 

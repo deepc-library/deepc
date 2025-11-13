@@ -46,7 +46,7 @@ void deepc_dense_layer_backward(float* delta, const deepc_layer* layer,
 
         for (size_t i = 0; i < nr; ++i)
         {
-            delta[j] += w[j * nr + i] * forward_delta[i];
+            delta[j] += layer->weights[j * nr + i] * forward_delta[i];
 
         }
         

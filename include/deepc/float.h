@@ -4,16 +4,16 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-#ifdef __cpluscplus
+#ifdef __cplusplus
 extern "C" {
 #endif
 
-bool deepc_are_floats_equal(float x, float y, float epsilon);
+bool deepc_floats_equal(float x, float y, float epsilon);
 
-bool deepc_are_float_arrays_equal(const float* v1, const float* v2, size_t n, 
+bool deepc_float_arrays_equal(const float* v1, const float* v2, size_t n, 
     float epsilon);
 
-#ifdef __cpluscplus
+#ifdef __cplusplus
 }
 #endif
 
