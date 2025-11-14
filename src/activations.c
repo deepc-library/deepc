@@ -13,7 +13,7 @@ float deepc_sigmoid_derivative(float x)
 
 float deepc_relu(float x)
 {
-    return fmaxf(0, x);
+    return fmaxf(0.0f, x);
 }
 
 float deepc_relu_derivative(float x)
@@ -28,5 +28,5 @@ float deepc_tanh(float x)
 
 float deepc_tanh_derivative(float x)
 {
-    return 1 - tanhf(x) * tanhf(x);
+    return 1.0f - tanhf(x) * tanhf(x);
 }
