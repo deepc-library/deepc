@@ -6,11 +6,15 @@ extern "C" {
 #endif
 
 float deepc_sigmoid(float x);
-float deepc_relu(float x);
-float deepc_tanh(float x);
 
 float deepc_sigmoid_derivative(float x);
+
+float deepc_relu(float x);
+
 float deepc_relu_derivative(float x);
+
+float deepc_tanh(float x);
+
 float deepc_tanh_derivative(float x);
 
 #ifdef __cplusplus
