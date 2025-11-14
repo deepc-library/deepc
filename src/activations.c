@@ -1,5 +1,4 @@
 #include <deepc/activations.h>
-
 #include <math.h>
 
 float deepc_sigmoid(float x)
@@ -9,7 +8,7 @@ float deepc_sigmoid(float x)
 
 float deepc_sigmoid_derivative(float x)
 {
-    return deepc_sigmoid(x)(1.0f - deepc_sigmoid(x));
+    return deepc_sigmoid(x) * (1.0f - deepc_sigmoid(x));
 }
 
 float deepc_relu(float x)
@@ -29,5 +28,5 @@ float deepc_tanh(float x)
 
 float deepc_tanh_derivative(float x)
 {
-    1 - tanhf(x) * tanhf(x);
+    return 1 - tanhf(x) * tanhf(x);
 }

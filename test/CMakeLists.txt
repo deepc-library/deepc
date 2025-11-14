@@ -4,7 +4,7 @@ target_link_libraries(test_float PRIVATE deepc)
 
 add_executable(test_activations test_activations.cpp)
 set_property(TARGET test_activations PROPERTY CXX_STANDARD 11)
-target_link_libraries(test_activations PRIVATE deepc)
+target_link_libraries(test_activations PRIVATE deepc m)
 
 enable_testing()
 add_test(NAME test_float COMMAND test_float)
