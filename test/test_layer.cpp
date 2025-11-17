@@ -77,10 +77,73 @@ void test_dense_layer_forward()
     assert(deepc_float_arrays_equal(output, true_output, 2, epsilon));
 }
 
+
+void test_dense_layer_backward()
+{
+    layer.forward(output, z, &layer, input);
+    
+    float forward_delta[] = {0.5f, -0.5f};
+    
+    float delta[input_size];
+    layer.backward(delta, &layer, forward_delta, z);
+    
+    float expected_delta[input_size] = {0.0f, 0.0f, 0.0f};
+    
+    for (size_t i = 0; i < output_size; ++i)
+    {
+        float activation_grad = deepc_sigmoid_derivative(z[i]);
+        float delta_i = forward_delta[i] * activation_grad;
+        
+        for (size_t j = 0; j < input_size; ++j)
+        {
+            expected_delta[j] += weights[i * input_size + j] * delta_i;
+        }
+    }
+    
+    assert(deepc_float_arrays_equal(delta, expected_delta, input_size, epsilon));
+}
+
+void test_dense_layer_update()
+{
+    float original_weights[6];
+    float original_biases[2];
+    vec_copy(original_weights, weights, 6);
+    vec_copy(original_biases, biases, 2);
+    
+
+    float learning_rate = 0.1f;
+    float delta[] = {0.2f, -0.3f};
+    
+    layer.update(&layer, learning_rate, input, delta);
+    
+
+    float expected_weights[6];
+    float expected_biases[2];
+    vec_copy(expected_weights, original_weights, 6);
+    vec_copy(expected_biases, original_biases, 2);
+    
+    for (size_t i = 0; i < output_size; ++i)
+    {
+        for (size_t j = 0; j < input_size; ++j)
+        {
+            expected_weights[i * input_size + j] -= learning_rate * input[j] * delta[i];
+        }
+        expected_biases[i] -= learning_rate * delta[i];
+    }
+    
+
+    assert(deepc_float_arrays_equal(weights, expected_weights, 6, epsilon));  
+    assert(deepc_float_arrays_equal(biases, expected_biases, 2, epsilon));
+}
+
 int main()
 {
     deepc_dense_layer_initialize(&layer, weights, biases, input_size, 
         output_size, deepc_sigmoid, deepc_sigmoid_derivative);
 
     test_dense_layer_forward();
+    test_dense_layer_backward();
+    test_dense_layer_update();
+    
+    return 0;
 }
