@@ -2,29 +2,31 @@
 #define DEEPC_VECTOR_HPP
 
 #include <cstddef>
-#include <initializer_list>
 
 namespace deepc {
 
 class Vector {
 public:
-    Vector(std::initializer_list<float> il);
+    Vector(std::size_t size);
 
     Vector(const Vector& other);
-    Vector(Vector&& other);
+    Vector& operator=(const Vector& other);
 
-    ~Vector();
+    Vector(Vector&& other) noexcept;
+    Vector& operator=(Vector&& other) noexcept;
 
-    float& operator()(size_t pos) { return data_[pos]; }
-    float operator()(size_t pos) const { return data_[pos]; }
+    ~Vector() noexcept;
+
+    float& operator[](std::size_t pos);
+    float operator[](std::size_t pos) const;
 
     bool operator==(const Vector& other) const;
     bool operator!=(const Vector& other) const;
 
     Vector& operator+=(const Vector& other);
     Vector& operator-=(const Vector& other);
-    Vector& operator*=(float scalar);
-    Vector& operator/=(float scalar);
+    Vector& operator*=(float scalar) noexcept;
+    Vector& operator/=(float scalar) noexcept;
 
     Vector operator+(const Vector& other) const;
     Vector operator-(const Vector& other) const;
@@ -33,12 +35,13 @@ public:
 
     float operator*(const Vector& other) const;
 
+    std::size_t size() const noexcept { return size_; }
+
     float* data() { return data_; }
     const float* data() const { return data_; }
-    size_t size() const { return size_; }
 private:
+    std::size_t size_;
     float* data_;
-    size_t size_;
 };
 
 Vector operator*(float scalar, const Vector& v);
