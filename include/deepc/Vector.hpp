@@ -7,7 +7,7 @@ namespace deepc {
 
 class Vector {
 public:
-    Vector(std::size_t size);
+    explicit Vector(std::size_t size);
 
     Vector(const Vector& other);
     Vector& operator=(const Vector& other);

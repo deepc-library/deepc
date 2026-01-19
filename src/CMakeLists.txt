@@ -1,7 +1,7 @@
-set(DEEPC_SRC float.c layer.c activations.c)
+set(DEEPC_SRC Activation.cpp DenseLayer.cpp Layer.cpp Matrix.cpp Vector.cpp)
 
 add_library(deepc STATIC ${DEEPC_SRC})
-set_property(TARGET deepc PROPERTY C_STANDARD 99)
+set_property(TARGET deepc PROPERTY CXX_STANDARD 11)
 
 target_link_libraries(deepc PUBLIC m)
 target_include_directories(deepc PUBLIC ../include)

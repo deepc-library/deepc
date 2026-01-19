@@ -6,7 +6,8 @@
 
 namespace deepc {
 
-Vector::Vector(std::size_t size) : size_(size), data_(new float[size]) {}
+Vector::Vector(std::size_t size) 
+    : size_(size), data_(new float[size]) {}
 
 Vector::Vector(const Vector& other)
     : size_(other.size_), data_(new float[other.size_]) {
@@ -64,7 +65,7 @@ bool Vector::operator==(const Vector& other) const noexcept {
     }
     
     for (std::size_t i = 0; i < size_; ++i) {
-        if (std::abs(data_[i] - other.data_[i]) > EPSILON) {
+        if (std::abs(data_[i] - other.data_[i]) > detail::EPSILON) {
             return false;
         }
     }
@@ -78,7 +79,7 @@ bool Vector::operator!=(const Vector& other) const noexcept {
     }
 
     for (std::size_t i = 0; i < size_; ++i) {
-        if (std::abs(data_[i] - other.data_[i]) > EPSILON) {
+        if (std::abs(data_[i] - other.data_[i]) > detail::EPSILON) {
             return true;
         }
     }

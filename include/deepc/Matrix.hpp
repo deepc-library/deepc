@@ -7,7 +7,7 @@ namespace deepc {
 
 class Matrix {
 public:
-    Matrix(std::size_t nrows, std::size_t ncols);
+    explicit Matrix(std::size_t rows, std::size_t cols);
 
     Matrix(const Matrix& other);
     Matrix& operator=(const Matrix& other);
@@ -17,20 +17,21 @@ public:
 
     ~Matrix() noexcept;
 
-    float* operator[](std::size_t row_pos);
-    const float* operator[](std::size_t row_pos) const;
+    float* operator[](std::size_t row);
+    const float* operator[](std::size_t row) const;
 
     bool operator==(const Matrix& other) const noexcept;
     bool operator!=(const Matrix& other) const noexcept;
 
-    std::size_t nrows() const noexcept { return nrows_; }
-    std::size_t ncols() const noexcept { return ncols_; }
+    std::size_t rows() const noexcept { return rows_; }
+    std::size_t cols() const noexcept { return cols_; }
+    std::size_t size() const noexcept { return rows_ * cols_; }
 
     float* data() { return data_; }
     const float* data() const { return data_; }
 private:
-    std::size_t nrows_;
-    std::size_t ncols_;
+    std::size_t rows_;
+    std::size_t cols_;
     float* data_;
 };
 
