@@ -13,7 +13,6 @@ void Network::add_layer(std::size_t size, const Activation& activation) {
 }
 
 const Vector& Network::forward(const Vector& input) {
-    // todo: throw exception if input.size() != inputs_.front().size()
     inputs_.front() = input;
 
     for (std::size_t i = 0; i < layers_.size(); ++i) {
@@ -24,7 +23,6 @@ const Vector& Network::forward(const Vector& input) {
 }
 
 const Vector& Network::backward(const Vector& delta) {
-    // todo: throw exception if delta.size() != deltas_.back().size()
     deltas_.back() = delta;
 
     for (std::size_t i = layers_.size(); i > 0; --i) {

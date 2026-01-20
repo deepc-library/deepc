@@ -14,12 +14,9 @@ Vector::Vector(const Vector& other)
 }
 
 Vector& Vector::operator=(const Vector& other) {
+    assert(size_ == other.size_);
+
     if (this != &other) {
-        delete[] data_;
-
-        size_ = other.size_;
-        data_ = new float[size_];
-
         std::copy(other.data_, other.data_ + size_, data_);
     }
 

@@ -15,13 +15,9 @@ Matrix::Matrix(const Matrix& other)
 }
 
 Matrix& Matrix::operator=(const Matrix& other) {
+    assert(rows_ == other.rows_ && cols_ == other.cols_);
+
     if (this != &other) {
-        delete[] data_;
-
-        rows_ = other.rows_;
-        cols_ = other.cols_;
-
-        data_ = new float[rows_, cols_];
         std::copy(other.data_, other.data_ + rows_ * cols_, data_);
     }
 
