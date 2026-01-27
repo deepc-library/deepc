@@ -4,18 +4,15 @@
 namespace deepc {
 
 DenseLayer::DenseLayer(std::size_t size, std::size_t input, 
-    const Activation& activation, 
-    FloatInitializer& weight_initializer, 
-    FloatInitializer& bias_initializer) 
-    : weights_(size, input) , biases_(size), z_(size)
-    , activation_(activation) 
-{
+    const Activation& activation, FloatGenerator& weight_generator, 
+    FloatGenerator& bias_generator) 
+    : weights_(size, input), biases_(size), z_(size), activation_(activation) {
     for (std::size_t i = 0; i < weights_.size(); ++i) {
-        weights_.data()[i] = weight_initializer.generate();
+        weights_.data()[i] = weight_generator.generate();
     }
 
     for (std::size_t i = 0; i < biases_.size(); ++i) {
-        biases_[i] = bias_initializer.generate();
+        biases_[i] = bias_generator.generate();
     }
 }
 
@@ -50,8 +47,7 @@ Vector DenseLayer::backward(const Vector& delta) const {
 }
 
 void DenseLayer::update(const Vector& input, const Vector& delta, 
-    float learning_rate) 
-{
+    float learning_rate) {
     for (std::size_t i = 0; i < weights_.rows(); ++i) {
         for (std::size_t j = 0; j < weights_.cols(); ++j) {
             weights_[i][j] -= learning_rate * input[j] * delta[i];

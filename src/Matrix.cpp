@@ -10,8 +10,7 @@ Matrix::Matrix(std::size_t rows, std::size_t cols)
 
 Matrix::Matrix(const Matrix& other) 
     : rows_(other.rows_), cols_(other.cols_)
-    , data_(new float[other.rows_ * other.cols_]) 
-{
+    , data_(new float[other.rows_ * other.cols_]) {
     std::copy(other.data_, other.data_ + rows_ * cols_, data_);
 }
 
@@ -32,8 +31,7 @@ Matrix& Matrix::operator=(const Matrix& other) {
 }
 
 Matrix::Matrix(Matrix&& other) noexcept 
-    : rows_(other.rows_), cols_(other.cols_), data_(other.data_) 
-{
+    : rows_(other.rows_), cols_(other.cols_), data_(other.data_) {
     other.rows_ = 0;
     other.cols_ = 0;
     other.data_ = nullptr;

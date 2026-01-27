@@ -5,12 +5,10 @@
 
 namespace deepc {
 
-Vector::Vector(std::size_t size) 
-    : size_(size), data_(new float[size]) {}
+Vector::Vector(std::size_t size) : size_(size), data_(new float[size]) {}
 
 Vector::Vector(const Vector& other)
-    : size_(other.size_), data_(new float[other.size_]) 
-{
+    : size_(other.size_), data_(new float[other.size_]) {
     std::copy(other.data_, other.data_ + size_, data_);
 }
 
@@ -30,8 +28,7 @@ Vector& Vector::operator=(const Vector& other) {
 }
 
 Vector::Vector(Vector&& other) noexcept 
-    : size_(other.size_), data_(other.data_) 
-{
+    : size_(other.size_), data_(other.data_) {
     other.size_ = 0;
     other.data_ = nullptr;
 }

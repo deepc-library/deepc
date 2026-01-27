@@ -7,11 +7,9 @@ DenseNetwork::DenseNetwork(std::size_t input)
     : inputs_{ Vector(input) }, deltas_{ Vector(input) } {}
 
 void DenseNetwork::add_layer(std::size_t size, const Activation& activation, 
-    FloatInitializer& weight_initializer, 
-    FloatInitializer& bias_initializer) 
-{
+    FloatGenerator& weight_generator, FloatGenerator& bias_generator) {
     layers_.push_back(DenseLayer(size, inputs_.back().size(), activation,
-        weight_initializer, bias_initializer));
+        weight_generator, bias_generator));
 
     inputs_.push_back(Vector(size));;
     deltas_.push_back(Vector(size));

@@ -10,12 +10,12 @@
 
 int main() {    
     std::mt19937 rng(41);
-    deepc::UniformXavier weight_initializer(3, 4, rng);
-    deepc::ZeroFloatInitializer bias_initializer;
+    deepc::UniformXavier weight_generator(3, 4, rng);
+    deepc::ZeroGenerator bias_generator;
 
     // Dummy values, initialize layer as you wish
-    deepc::DenseLayer layer(4, 3, deepc::RELU, weight_initializer, 
-        bias_initializer);
+    deepc::DenseLayer layer(4, 3, deepc::RELU, weight_generator, 
+        bias_generator);
 
     // Run class' unit test here:
     //
