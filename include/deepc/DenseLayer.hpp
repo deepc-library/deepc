@@ -4,16 +4,15 @@
 #include <deepc/Vector.hpp>
 #include <deepc/Matrix.hpp>
 #include <deepc/Activation.hpp>
-#include <deepc/FloatInitializer.hpp>
+#include <deepc/FloatGenerator.hpp>
 
 namespace deepc {
 
 class DenseLayer {
 public:
     explicit DenseLayer(std::size_t size, std::size_t input, 
-        const Activation& activation, 
-        FloatInitializer& weight_initializer, 
-        FloatInitializer& bias_initializer);
+        const Activation& activation, FloatGenerator& weight_generator, 
+        FloatGenerator& bias_generator);
 
     Vector forward(const Vector& input);
     Vector backward(const Vector& delta) const;

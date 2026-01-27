@@ -10,7 +10,6 @@ UniformXavier::UniformXavier(std::size_t fan_in, std::size_t fan_out,
 float UniformXavier::generate() {
     auto denom = static_cast<float>(fan_in_ + fan_out_);
     auto limit = std::sqrt(6.0f / denom);
-
     std::uniform_real_distribution<float> dist(-limit, limit);
     return dist(rng_);
 }

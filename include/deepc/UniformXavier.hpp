@@ -1,13 +1,13 @@
 #ifndef DEEPC_UNIFORM_XAVIER_HPP
 #define DEEPC_UNIFORM_XAVIER_HPP
 
-#include <deepc/FloatInitializer.hpp>
+#include <deepc/FloatGenerator.hpp>
 #include <random>
 #include <cstddef>
 
 namespace deepc {
 
-class UniformXavier : public FloatInitializer {
+class UniformXavier : public FloatGenerator {
 public:
     explicit UniformXavier(std::size_t fan_in, std::size_t fan_out, 
         const std::mt19937& rng);
