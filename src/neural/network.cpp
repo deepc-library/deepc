@@ -8,7 +8,7 @@ Network::Network(std::size_t input)
     : inputs_{ Vector(input) }, deltas_{ Vector(input) } {}
 
 void Network::add_layer(const Layer& layer) {
-    layers_.push_back(std::unique_ptr<Layer>(layer.clone()));
+    layers_.emplace_back(layer.clone());
     inputs_.push_back(Vector(layer.output_size()));;
     deltas_.push_back(Vector(layer.output_size()));
 }

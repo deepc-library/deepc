@@ -4,16 +4,14 @@
 #include <deepc/neural/layer.hpp>
 #include <deepc/tensor/matrix.hpp>
 #include <deepc/random/number_generator.hpp>
-#include <string>
-#include <functional>
+#include <deepc/differential/activations.hpp>
 
 namespace deepc {
 
 class FullyConnLayer : public Layer {
 public:
     explicit FullyConnLayer(std::size_t size, std::size_t input, 
-        const std::string& activation, 
-        const NumberGenerator& weight_initializer);
+        Activation activation, const NumberGenerator& weight_initializer);
 
     virtual Layer* clone() const override { return new FullyConnLayer(*this); }
 

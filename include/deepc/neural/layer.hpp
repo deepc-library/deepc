@@ -7,7 +7,6 @@ namespace deepc {
 
 struct Layer {
     virtual ~Layer() noexcept = default;
-
     virtual Layer* clone() const = 0;
 
     virtual std::size_t output_size() const = 0;

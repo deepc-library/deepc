@@ -1,5 +1,5 @@
-#ifndef DEEPC_RNG_UNIFORM_XAVIER_HPP
-#define DEEPC_RNG_UNIFORM_XAVIER_HPP
+#ifndef DEEPC_RANDOM_UNIFORM_XAVIER_HPP
+#define DEEPC_RANDOM_UNIFORM_XAVIER_HPP
 
 #include <deepc/random/number_generator.hpp>
 #include <random>
@@ -25,4 +25,4 @@ private:
 
 } // namespace deepc
 
-#endif // DEEPC_RNG_UNIFORM_XAVIER_HPP
+#endif // DEEPC_RANDOM_UNIFORM_XAVIER_HPP

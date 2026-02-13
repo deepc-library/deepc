@@ -5,7 +5,6 @@ namespace deepc {
 
 struct NumberGenerator {
     virtual ~NumberGenerator() noexcept = default;
-
     virtual NumberGenerator* clone() const = 0;
     virtual float generate() = 0;
 };

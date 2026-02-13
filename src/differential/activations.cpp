@@ -1,21 +1,21 @@
-#include <deepc/functional/activations.hpp>
+#include <deepc/differential/activations.hpp>
 #include <cmath>
 
 namespace deepc {
 namespace detail {
 
-const std::unordered_map<std::string, std::function<float(float)>>
+const std::unordered_map<Activation, std::function<float(float)>>
     activation_function = {
-    { "relu", relu }, 
-    { "sigmoid", sigmoid }, 
-    { "tanh", tanh }
+    { Activation::RELU, relu }, 
+    { Activation::SIGMOID, sigmoid }, 
+    { Activation::TANH, tanh }
 };
 
-const std::unordered_map<std::string, std::function<float(float)>>
+const std::unordered_map<Activation, std::function<float(float)>>
     activation_derivative = {
-    { "relu", relu_derivative }, 
-    { "sigmoid", sigmoid_derivative }, 
-    { "tanh", tanh_derivative }
+    { Activation::RELU, relu_derivative }, 
+    { Activation::SIGMOID, sigmoid_derivative }, 
+    { Activation::TANH, tanh_derivative }
 };   
 
 float relu(float x) {
