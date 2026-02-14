@@ -1,5 +1,5 @@
-#ifndef DEEPC_RNG_UNIFORM_XAVIER_HPP
-#define DEEPC_RNG_UNIFORM_XAVIER_HPP
+#ifndef DEEPC_RANDOM_UNIFORM_XAVIER_HPP
+#define DEEPC_RANDOM_UNIFORM_XAVIER_HPP
 
 #include <deepc/random/number_generator.hpp>
 #include <random>
@@ -12,11 +12,9 @@ public:
     explicit UniformXavier(std::size_t fan_in, std::size_t fan_out, 
         unsigned int seed);
 
-    virtual NumberGenerator* clone() const override {
-        return new UniformXavier(*this);
-    }
+    NumberGenerator* clone() const override { return new UniformXavier(*this); }
 
-    virtual float generate() override;
+    float generate() override;
 private:
     std::size_t fan_in_;
     std::size_t fan_out_;
@@ -25,4 +23,4 @@ private:
 
 } // namespace deepc
 
-#endif // DEEPC_RNG_UNIFORM_XAVIER_HPP
+#endif // DEEPC_RANDOM_UNIFORM_XAVIER_HPP

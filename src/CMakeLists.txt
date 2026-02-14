@@ -1,4 +1,4 @@
-set(DEEPC_SRC functional/activations.cpp neural/fully_conn_layer.cpp 
+set(DEEPC_SRC differential/activations.cpp neural/fully_conn_layer.cpp 
     neural/network.cpp random/uniform_xavier.cpp scalar/precision.cpp 
     tensor/matrix.cpp tensor/vector.cpp)
 

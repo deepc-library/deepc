@@ -1,12 +1,11 @@
 #include <deepc/neural/fully_conn_layer.hpp>
-#include <deepc/functional/activations.hpp>
 #include <memory>
 #include <algorithm>
 
 namespace deepc {
 
 FullyConnLayer::FullyConnLayer(std::size_t size, std::size_t input, 
-    const std::string& activation, const NumberGenerator& weight_initializer) 
+    Activation activation, const NumberGenerator& weight_initializer) 
     : weights_(size, input), biases_(size), z_(size)
     , activation_function_(detail::activation_function.at(activation))
     , activation_derivative_(detail::activation_derivative.at(activation)) {

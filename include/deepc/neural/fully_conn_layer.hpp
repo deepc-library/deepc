@@ -4,27 +4,25 @@
 #include <deepc/neural/layer.hpp>
 #include <deepc/tensor/matrix.hpp>
 #include <deepc/random/number_generator.hpp>
-#include <string>
-#include <functional>
+#include <deepc/differential/activations.hpp>
 
 namespace deepc {
 
 class FullyConnLayer : public Layer {
 public:
     explicit FullyConnLayer(std::size_t size, std::size_t input, 
-        const std::string& activation, 
-        const NumberGenerator& weight_initializer);
+        Activation activation, const NumberGenerator& weight_initializer);
 
-    virtual Layer* clone() const override { return new FullyConnLayer(*this); }
+    Layer* clone() const override { return new FullyConnLayer(*this); }
 
-    virtual std::size_t output_size() const override { return weights_.rows(); }
-    virtual std::size_t input_size() const override { return weights_.cols(); }
+    std::size_t output_size() const override { return weights_.rows(); }
+    std::size_t input_size() const override { return weights_.cols(); }
 
-    virtual Vector forward(const Vector& input) override;
-    virtual Vector backward(const Vector& delta) const override;
+    Vector forward(const Vector& input) override;
+    Vector backward(const Vector& delta) const override;
 
-    virtual void update(const Vector& input, const Vector& delta, 
-        float learning_rate) override;
+    void update(const Vector& input, const Vector& delta, float learning_rate) 
+        override;
 private:
     Matrix weights_;
 
