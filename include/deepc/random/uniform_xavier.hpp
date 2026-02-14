@@ -12,11 +12,9 @@ public:
     explicit UniformXavier(std::size_t fan_in, std::size_t fan_out, 
         unsigned int seed);
 
-    virtual NumberGenerator* clone() const override {
-        return new UniformXavier(*this);
-    }
+    NumberGenerator* clone() const override { return new UniformXavier(*this); }
 
-    virtual float generate() override;
+    float generate() override;
 private:
     std::size_t fan_in_;
     std::size_t fan_out_;
